@@ -1,78 +1,47 @@
+import type { z } from "zod";
+import type {
+  loginSchema,
+  registerSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  updateProfileSchema,
+  changePasswordSchema,
+  deleteAccountSchema,
+  oauthSchema,
+} from "@/src/schemas/auth";
+import type {
+  clienteResourceSchema,
+  loginResponseDataSchema,
+} from "@/src/schemas/api-responses";
+
+// ---------------------------------------------------------------------------
+// Derived from Zod schemas (single source of truth)
+// ---------------------------------------------------------------------------
+
+export type LoginRequest = z.infer<typeof loginSchema>;
+export type RegisterRequest = z.infer<typeof registerSchema>;
+export type ForgotPasswordRequest = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordRequest = z.infer<typeof resetPasswordSchema>;
+export type UpdateProfileRequest = z.infer<typeof updateProfileSchema>;
+export type ChangePasswordRequest = z.infer<typeof changePasswordSchema>;
+export type DeleteAccountRequest = z.infer<typeof deleteAccountSchema>;
+export type OAuthRequest = z.infer<typeof oauthSchema>;
+export type ClienteResource = z.infer<typeof clienteResourceSchema>;
+export type LoginResponse = z.infer<typeof loginResponseDataSchema>;
+
+/** OAuthResponse shares the same shape as LoginResponse (token + cliente). */
+export type OAuthResponse = LoginResponse;
+
+// ---------------------------------------------------------------------------
+// Manual types (no corresponding Zod schema)
+// ---------------------------------------------------------------------------
+
 export type OAuthProvider = "google" | "apple";
-
-export interface LoginRequest {
-  email: string;
-  senha: string;
-}
-
-export interface LoginResponse {
-  token: string;
-  token_type: string;
-  expires_in: number;
-  cliente: ClienteResource;
-}
-
-export interface RegisterRequest {
-  nome: string;
-  email: string;
-  cpf: string;
-  senha: string;
-  senha_confirmation: string;
-}
-
-export interface ClienteResource {
-  id: number;
-  nome: string;
-  email: string;
-  cpf?: string | null;
-  telefone?: string | null;
-  created_at: string;
-  updated_at?: string;
-}
 
 export interface TokenPair {
   token: string;
   token_type: string;
   expires_in: number;
-}
-
-export interface OAuthRequest {
-  provider: OAuthProvider;
-  token: string;
-  nonce?: string;
-}
-
-export interface OAuthResponse {
-  token: string;
-  token_type: string;
-  expires_in: number;
-  cliente: ClienteResource;
-}
-
-export interface ForgotPasswordRequest {
-  email: string;
-}
-
-export interface ResetPasswordRequest {
-  email: string;
-  token: string;
-  senha: string;
-}
-
-export interface UpdateProfileRequest {
-  nome?: string;
-  email?: string;
-  telefone?: string;
-}
-
-export interface ChangePasswordRequest {
-  senha_atual: string;
-  nova_senha: string;
-}
-
-export interface DeleteAccountRequest {
-  senha: string;
-  motivo?: string;
 }
 
 export interface BiometricEnrollRequest {

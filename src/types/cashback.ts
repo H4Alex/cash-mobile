@@ -1,3 +1,20 @@
+import type { z } from "zod";
+import type { saldoDataSchema, extratoEntrySchema } from "@/src/schemas/api-responses";
+import type { gerarQRCodeSchema, validarQRCodeSchema } from "@/src/schemas/cashback";
+
+// ---------------------------------------------------------------------------
+// Derived from Zod schemas (single source of truth)
+// ---------------------------------------------------------------------------
+
+export type CashbackSaldo = z.infer<typeof saldoDataSchema>;
+export type ExtratoEntry = z.infer<typeof extratoEntrySchema>;
+export type GerarQRCodeRequest = z.infer<typeof gerarQRCodeSchema>;
+export type ValidarQRCodeRequest = z.infer<typeof validarQRCodeSchema>;
+
+// ---------------------------------------------------------------------------
+// Manual types (no corresponding Zod schema)
+// ---------------------------------------------------------------------------
+
 export type CashbackStatus = "pendente" | "confirmado" | "utilizado" | "rejeitado" | "expirado" | "congelado";
 
 export interface CashbackEntry {
@@ -9,39 +26,6 @@ export interface CashbackEntry {
   created_at: string;
   expires_at?: string;
   descricao?: string;
-}
-
-export interface CashbackSaldo {
-  saldo_total: number;
-  por_empresa: {
-    empresa_id: number;
-    nome_fantasia: string | null;
-    logo_url: string | null;
-    saldo: string;
-  }[];
-  proximo_a_expirar: {
-    valor: number;
-    quantidade: number;
-  };
-}
-
-export interface ExtratoEntry {
-  id: number;
-  tipo: string;
-  valor_compra: number;
-  valor_cashback: number;
-  status_cashback: string;
-  data_expiracao: string | null;
-  created_at: string;
-  empresa?: {
-    id: number;
-    nome_fantasia: string;
-    logo_url: string | null;
-  };
-  campanha?: {
-    id: number;
-    nome: string;
-  };
 }
 
 export interface EmpresaLoja {
@@ -58,15 +42,6 @@ export interface QRCodeToken {
   empresa_id: number;
   valor: number;
   expira_em: string;
-}
-
-export interface GerarQRCodeRequest {
-  empresa_id: number;
-  valor: number;
-}
-
-export interface ValidarQRCodeRequest {
-  qr_token: string;
 }
 
 export interface ValidarQRCodeResponse {
