@@ -21,6 +21,7 @@ export type {
   CashbackStatus,
   CashbackEntry,
   CashbackSaldo,
+  EmpresaLoja,
   EmpresaSaldo,
   QRCodeToken,
   GerarQRCodeRequest,

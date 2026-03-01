@@ -36,7 +36,7 @@ export default function CreateContestacaoScreen() {
       </View>
 
       <ContestacaoForm
-        cashbackEntryId={params.cashback_entry_id ?? ""}
+        transacaoId={Number(params.cashback_entry_id) || 0}
         onSubmit={handleSubmit}
         isPending={isPending}
       />

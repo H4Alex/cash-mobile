@@ -1,22 +1,23 @@
+import type { z } from "zod";
+import type { notificationSchema } from "@/src/schemas/api-responses";
+import type { notificationPreferencesSchema } from "@/src/schemas/notification";
+
+// ---------------------------------------------------------------------------
+// Derived from Zod schemas (single source of truth)
+// ---------------------------------------------------------------------------
+
 /** Notification type enum */
-export type NotificationType =
-  | "cashback_recebido"
-  | "cashback_expirado"
-  | "cashback_utilizado"
-  | "campanha_nova"
-  | "contestacao_atualizada"
-  | "sistema";
+export type NotificationType = z.infer<typeof notificationSchema>["tipo"];
 
 /** In-app notification */
-export interface MobileNotification {
-  id: number;
-  titulo: string;
-  mensagem: string;
-  tipo: NotificationType;
-  lida: boolean;
-  dados_extras: Record<string, unknown> | null;
-  created_at: string;
-}
+export type MobileNotification = z.infer<typeof notificationSchema>;
+
+/** Notification preferences */
+export type NotificationPreferences = z.infer<typeof notificationPreferencesSchema>;
+
+// ---------------------------------------------------------------------------
+// Manual types (no corresponding Zod schema)
+// ---------------------------------------------------------------------------
 
 /** Notification list response (inner data from API envelope) */
 export interface NotificationListResponse {
@@ -26,11 +27,4 @@ export interface NotificationListResponse {
     next_cursor: string | null;
     has_more_pages: boolean;
   };
-}
-
-/** Notification preferences */
-export interface NotificationPreferences {
-  push_enabled: boolean;
-  email_enabled: boolean;
-  marketing_enabled: boolean;
 }

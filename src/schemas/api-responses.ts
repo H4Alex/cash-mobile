@@ -14,6 +14,24 @@ export function apiResponseSchema<T extends z.ZodType>(dataSchema: T) {
   });
 }
 
+/** Wraps any item schema in the offset-paginated API envelope. */
+export function paginatedResponseSchema<T extends z.ZodType>(itemSchema: T) {
+  return z.object({
+    status: z.literal(true),
+    data: z.array(itemSchema),
+    pagination: z.object({
+      current_page: z.number(),
+      last_page: z.number(),
+      per_page: z.number(),
+      total: z.number(),
+      next_page_url: z.string().nullable(),
+      prev_page_url: z.string().nullable(),
+    }),
+    error: z.null(),
+    message: z.string(),
+  });
+}
+
 /** Wraps any item schema in the cursor-paginated API envelope. */
 export function cursorPaginatedResponseSchema<T extends z.ZodType>(itemSchema: T) {
   return z.object({
@@ -105,18 +123,22 @@ export const extratoResponseSchema = cursorPaginatedResponseSchema(extratoEntryS
 /** Contestacao resource. */
 export const contestacaoSchema = z.object({
   id: z.number(),
+  empresa_id: z.number(),
+  transacao_id: z.number(),
+  cliente_id: z.number().nullable(),
   tipo: z.enum(["cashback_nao_gerado", "valor_incorreto", "expiracao_indevida", "venda_cancelada"]),
   descricao: z.string(),
   status: z.enum(["pendente", "aprovada", "rejeitada"]),
-  cashback_entry_id: z.string(),
-  empresa_nome: z.string(),
-  valor: z.number(),
+  resposta: z.string().nullable(),
+  respondido_por: z.number().nullable(),
   created_at: z.string(),
   updated_at: z.string(),
-  resposta: z.string().optional(),
+  // Optional fields populated when backend eager-loads relationships
+  empresa_nome: z.string().optional(),
+  valor: z.number().optional(),
 });
 
-export const contestacaoListResponseSchema = cursorPaginatedResponseSchema(contestacaoSchema);
+export const contestacaoListResponseSchema = paginatedResponseSchema(contestacaoSchema);
 
 /** MobileNotification resource. */
 export const notificationSchema = z.object({

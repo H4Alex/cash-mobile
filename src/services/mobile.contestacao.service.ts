@@ -1,5 +1,5 @@
 import { apiClient } from "@/src/lib/api-client";
-import type { ApiResponse, CursorPaginatedData } from "@/src/types";
+import type { ApiResponse } from "@/src/types";
 import type {
   Contestacao,
   ContestacaoListResponse,
@@ -11,10 +11,10 @@ import { contestacaoListResponseSchema, contestacaoSchema } from "@/src/schemas/
 const PREFIX = "/api/mobile/v1/contestacoes";
 
 export const mobileContestacaoService = {
-  async list(params?: { cursor?: string; limit?: number }): Promise<CursorPaginatedData<Contestacao>> {
+  async list(params?: { page?: number; per_page?: number }): Promise<ContestacaoListResponse> {
     const res = await apiClient.get<ContestacaoListResponse>(PREFIX, { params });
     validateResponse(contestacaoListResponseSchema, res.data, "GET /contestacoes");
-    return res.data.data;
+    return res.data;
   },
 
   async create(data: CreateContestacaoRequest): Promise<Contestacao> {

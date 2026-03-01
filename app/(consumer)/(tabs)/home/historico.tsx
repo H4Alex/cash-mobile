@@ -4,9 +4,10 @@ import { useHistorico } from "@/src/hooks/useHistorico";
 import { useRefreshOnFocus } from "@/src/hooks";
 import { EmptyState, SkeletonTransaction } from "@/src/components";
 import { formatCurrency, formatDateTime } from "@/src/utils/formatters";
-import type { HistoricoUso } from "@/src/types/historico";
+import type { ExtratoEntry } from "@/src/types";
 
-function HistoricoRow({ item }: { item: HistoricoUso }) {
+function HistoricoRow({ item }: { item: ExtratoEntry }) {
+  const empresaNome = item.empresa?.nome_fantasia ?? "Empresa";
   return (
     <View
       className="bg-white rounded-xl p-4 mx-4 mb-3"
@@ -16,26 +17,21 @@ function HistoricoRow({ item }: { item: HistoricoUso }) {
         <View className="flex-row items-center flex-1 mr-3">
           <View className="w-8 h-8 bg-purple-100 rounded-full items-center justify-center mr-2">
             <Text className="text-sm font-bold text-purple-600">
-              {item.empresa_nome.charAt(0).toUpperCase()}
+              {empresaNome.charAt(0).toUpperCase()}
             </Text>
           </View>
           <View className="flex-1">
             <Text className="text-base font-semibold" numberOfLines={1}>
-              {item.empresa_nome}
+              {empresaNome}
             </Text>
-            {item.descricao && (
-              <Text className="text-gray-500 text-xs mt-0.5" numberOfLines={1}>
-                {item.descricao}
-              </Text>
-            )}
           </View>
         </View>
         <View className="items-end">
           <Text className="text-sm text-gray-500">
-            Compra: {formatCurrency(item.valor_original)}
+            Compra: {formatCurrency(item.valor_compra)}
           </Text>
           <Text className="text-base font-bold text-green-600">
-            -{formatCurrency(item.cashback_usado)}
+            -{formatCurrency(item.valor_cashback)}
           </Text>
         </View>
       </View>
@@ -48,7 +44,7 @@ export default function HistoricoScreen() {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
     useHistorico();
 
-  const allItems = data?.pages.flatMap((p) => p.historico) ?? [];
+  const allItems = data?.pages.flatMap((p) => p.data) ?? [];
 
   const handleRefresh = useCallback(() => {
     refetch();
