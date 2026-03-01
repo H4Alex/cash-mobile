@@ -1,5 +1,5 @@
 import { apiClient } from "@/src/lib/api-client";
-import type { ApiResponse, CashbackStatus, CashbackSaldo, ExtratoEntry, EmpresaLoja, CursorPaginatedResponse, CursorPaginatedData } from "@/src/types";
+import type { ApiResponse, CashbackStatus, CashbackSaldo, ExtratoEntry, EmpresaSaldo, CursorPaginatedResponse, CursorPaginatedData } from "@/src/types";
 import { validateResponse } from "@/src/schemas/validateResponse";
 import { saldoResponseSchema, extratoResponseSchema } from "@/src/schemas/api-responses";
 
@@ -29,8 +29,8 @@ export const mobileCashbackService = {
     return res.data.data;
   },
 
-  async getLojasComSaldo(): Promise<EmpresaLoja[]> {
-    const res = await apiClient.get<ApiResponse<EmpresaLoja[]>>(`${PREFIX}/utilizacao/lojas`);
+  async getLojasComSaldo(): Promise<EmpresaSaldo[]> {
+    const res = await apiClient.get<ApiResponse<EmpresaSaldo[]>>(`${PREFIX}/utilizacao/lojas`);
     return res.data.data;
   },
 

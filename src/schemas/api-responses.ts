@@ -133,6 +133,9 @@ export const contestacaoSchema = z.object({
   respondido_por: z.number().nullable(),
   created_at: z.string(),
   updated_at: z.string(),
+  // Optional fields populated when backend eager-loads relationships
+  empresa_nome: z.string().optional(),
+  valor: z.number().optional(),
 });
 
 export const contestacaoListResponseSchema = paginatedResponseSchema(contestacaoSchema);

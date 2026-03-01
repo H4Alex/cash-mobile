@@ -11,12 +11,14 @@ export function useContestacoes() {
     queryKey: KEYS.contestacoes,
     queryFn: ({ pageParam }) =>
       mobileContestacaoService.list({
-        cursor: pageParam as string | undefined,
-        limit: 20,
+        page: pageParam,
+        per_page: 20,
       }),
-    initialPageParam: undefined as string | undefined,
+    initialPageParam: 1,
     getNextPageParam: (lastPage) =>
-      lastPage.meta.has_more_pages ? lastPage.meta.next_cursor : undefined,
+      lastPage.pagination.current_page < lastPage.pagination.last_page
+        ? lastPage.pagination.current_page + 1
+        : undefined,
   });
 }
 

@@ -16,7 +16,7 @@ export function useRevokeSession() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (sessionId: string) => sessionService.revokeSession(sessionId),
+    mutationFn: (sessionId: number) => sessionService.revokeSession(sessionId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: KEYS.sessions });
     },

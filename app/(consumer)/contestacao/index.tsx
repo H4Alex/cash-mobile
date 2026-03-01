@@ -23,7 +23,7 @@ function ContestacaoRow({ item }: { item: Contestacao }) {
     >
       <View className="flex-row items-start justify-between mb-2">
         <View className="flex-1 mr-3">
-          <Text className="text-base font-semibold">{item.empresa_nome}</Text>
+          <Text className="text-base font-semibold">{item.empresa_nome ?? `Empresa #${item.empresa_id}`}</Text>
           <Text className="text-gray-500 text-xs mt-0.5">{tipoLabels[item.tipo] ?? item.tipo}</Text>
         </View>
         <StatusBadge status={item.status} />
@@ -35,7 +35,9 @@ function ContestacaoRow({ item }: { item: Contestacao }) {
 
       <View className="flex-row items-center justify-between mt-3 pt-3 border-t border-gray-100">
         <Text className="text-gray-400 text-xs">{formatDate(item.created_at)}</Text>
-        <Text className="text-sm font-medium text-gray-700">{formatCurrency(item.valor)}</Text>
+        {item.valor != null && (
+          <Text className="text-sm font-medium text-gray-700">{formatCurrency(item.valor)}</Text>
+        )}
       </View>
 
       {item.resposta && (

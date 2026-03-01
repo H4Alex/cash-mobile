@@ -36,6 +36,13 @@ export interface EmpresaLoja {
   estado: string | null;
 }
 
+export interface EmpresaSaldo {
+  empresa_id: number;
+  nome_fantasia: string | null;
+  logo_url: string | null;
+  saldo: string;
+}
+
 export interface QRCodeToken {
   qr_token: string;
   cliente_id: number;

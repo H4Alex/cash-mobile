@@ -122,7 +122,7 @@ export default function QRScanScreen() {
             </View>
             <View className="flex-row justify-between">
               <Text className="text-gray-600">Saldo</Text>
-              <Text className="font-medium">{formatCurrency(validationResult.saldo)}</Text>
+              <Text className="font-medium">{formatCurrency(validationResult.saldo_cliente)}</Text>
             </View>
           </View>
 
