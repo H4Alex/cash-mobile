@@ -8,34 +8,35 @@ export type ContestacaoTipo =
 
 export interface Contestacao {
   id: number;
+  empresa_id: number;
+  transacao_id: number;
+  cliente_id: number | null;
   tipo: ContestacaoTipo;
   descricao: string;
   status: ContestacaoStatus;
-  cashback_entry_id: string;
-  empresa_nome: string;
-  valor: number;
+  resposta: string | null;
+  respondido_por: number | null;
   created_at: string;
   updated_at: string;
-  resposta?: string;
 }
 
 export interface ContestacaoListResponse {
   status: true;
-  data: {
-    data: Contestacao[];
-    meta: {
-      next_cursor: string | null;
-      prev_cursor: string | null;
-      per_page: number;
-      has_more_pages: boolean;
-    };
+  data: Contestacao[];
+  pagination: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    next_page_url: string | null;
+    prev_page_url: string | null;
   };
   error: null;
   message: string;
 }
 
 export interface CreateContestacaoRequest {
-  cashback_entry_id: string;
+  transacao_id: number;
   tipo: ContestacaoTipo;
   descricao: string;
 }

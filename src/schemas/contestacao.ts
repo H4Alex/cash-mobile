@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createContestacaoSchema = z.object({
-  cashback_entry_id: z.string().min(1, "Selecione uma transação"),
+  transacao_id: z.number({ required_error: "Selecione uma transação" }),
   tipo: z.enum(["cashback_nao_gerado", "valor_incorreto", "expiracao_indevida", "venda_cancelada"], {
     required_error: "Selecione o tipo da contestação",
   }),
