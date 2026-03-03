@@ -18,12 +18,14 @@ import {
   type ResetPasswordFormData,
 } from "@/src/schemas";
 import { useForgotPassword, useResetPassword } from "@/src/hooks";
+import { mobileAuthService } from "@/src/services";
 
-type Step = "email" | "token" | "done";
+type Step = "email" | "verify" | "reset" | "done";
 
 export default function ForgotPasswordScreen() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("email");
+  const [verifying, setVerifying] = useState(false);
   const forgotMutation = useForgotPassword();
   const resetMutation = useResetPassword();
 
@@ -41,10 +43,28 @@ export default function ForgotPasswordScreen() {
     forgotMutation.mutate(data, {
       onSuccess: () => {
         resetForm.setValue("email", data.email);
-        setStep("token");
+        setStep("verify");
       },
       onError: () => Alert.alert("Erro", "Não foi possível enviar o email de recuperação."),
     });
+  };
+
+  const onVerifyToken = async () => {
+    const token = resetForm.getValues("token");
+    const email = resetForm.getValues("email");
+    if (!token) {
+      Alert.alert("Erro", "Informe o código recebido por email.");
+      return;
+    }
+    setVerifying(true);
+    try {
+      await mobileAuthService.verifyResetToken({ email, token });
+      setStep("reset");
+    } catch {
+      Alert.alert("Erro", "Código inválido ou expirado. Tente novamente.");
+    } finally {
+      setVerifying(false);
+    }
   };
 
   const onResetPassword = (data: ResetPasswordFormData) => {
@@ -108,10 +128,10 @@ export default function ForgotPasswordScreen() {
         </>
       )}
 
-      {step === "token" && (
+      {step === "verify" && (
         <>
           <Text className="text-gray-600 mb-6">
-            Insira o código recebido por email e sua nova senha.
+            Insira o código recebido por email.
           </Text>
 
           <Text className="text-sm font-medium text-gray-700 mb-1">Código</Text>
@@ -135,7 +155,27 @@ export default function ForgotPasswordScreen() {
             </Text>
           )}
 
-          <Text className="text-sm font-medium text-gray-700 mb-1 mt-3">Nova Senha</Text>
+          <TouchableOpacity
+            className="bg-blue-600 rounded-lg py-4 items-center mt-4"
+            onPress={onVerifyToken}
+            disabled={verifying}
+          >
+            {verifying ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text className="text-white font-semibold text-base">Verificar Código</Text>
+            )}
+          </TouchableOpacity>
+        </>
+      )}
+
+      {step === "reset" && (
+        <>
+          <Text className="text-gray-600 mb-6">
+            Código verificado. Defina sua nova senha.
+          </Text>
+
+          <Text className="text-sm font-medium text-gray-700 mb-1">Nova Senha</Text>
           <Controller
             control={resetForm.control}
             name="senha"

@@ -6,6 +6,7 @@ jest.mock("@/src/lib/api-client", () => ({
     post: jest.fn(),
     get: jest.fn(),
     patch: jest.fn(),
+    delete: jest.fn(),
   },
   saveTokens: jest.fn(),
   clearTokens: jest.fn(),
@@ -15,6 +16,7 @@ jest.mock("@/src/lib/api-client", () => ({
 const mockPost = apiClient.post as jest.Mock;
 const mockGet = apiClient.get as jest.Mock;
 const mockPatch = apiClient.patch as jest.Mock;
+const mockDelete = (apiClient as unknown as { delete: jest.Mock }).delete;
 
 describe("mobileAuthService", () => {
   beforeEach(() => {
@@ -160,24 +162,39 @@ describe("mobileAuthService", () => {
     });
   });
 
+  describe("verifyResetToken", () => {
+    it("calls verify-reset-token endpoint", async () => {
+      mockPost.mockResolvedValue({ data: { status: true, data: { valid: true }, error: null, message: 'Sucesso' } });
+
+      await mobileAuthService.verifyResetToken({
+        email: "test@example.com",
+        token: "reset-token",
+      });
+
+      expect(mockPost).toHaveBeenCalledWith("/api/mobile/v1/auth/verify-reset-token", {
+        email: "test@example.com",
+        token: "reset-token",
+      });
+    });
+  });
+
   describe("deleteAccount", () => {
-    it("calls delete-account endpoint and clears tokens", async () => {
-      mockPost.mockResolvedValue({ data: { status: true, data: { success: true }, error: null, message: 'Sucesso' } });
+    it("calls delete-account endpoint with DELETE method and clears tokens", async () => {
+      mockDelete.mockResolvedValue({ data: { status: true, data: { success: true }, error: null, message: 'Sucesso' } });
 
       await mobileAuthService.deleteAccount({
         senha: "mypassword",
         motivo: "Não uso mais",
       });
 
-      expect(mockPost).toHaveBeenCalledWith("/api/mobile/v1/auth/delete-account", {
-        senha: "mypassword",
-        motivo: "Não uso mais",
+      expect(mockDelete).toHaveBeenCalledWith("/api/mobile/v1/auth/delete-account", {
+        data: { senha: "mypassword", motivo: "Não uso mais" },
       });
       expect(clearTokens).toHaveBeenCalled();
     });
 
     it("clears tokens even with password only", async () => {
-      mockPost.mockResolvedValue({ data: { status: true, data: { success: true }, error: null, message: 'Sucesso' } });
+      mockDelete.mockResolvedValue({ data: { status: true, data: { success: true }, error: null, message: 'Sucesso' } });
 
       await mobileAuthService.deleteAccount({ senha: "mypassword" });
 
