@@ -7,7 +7,6 @@
  * [C3] Status campanha: encerrada vs finalizada — schema aceita ambos.
  */
 import { z } from "zod";
-import { isoTimestampSchema } from "./common.schemas";
 
 // ─── Enums ───────────────────────────────────────────────────
 
