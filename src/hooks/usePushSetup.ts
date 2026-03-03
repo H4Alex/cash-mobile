@@ -118,5 +118,14 @@ export function usePushSetup() {
     };
   }, [isAuthenticated, registerToken]);
 
-  return { expoPushToken };
+  const unregisterToken = useCallback(async () => {
+    if (!expoPushToken) return;
+    try {
+      await apiClient.delete(DEVICE_ENDPOINT, { data: { token: expoPushToken } });
+    } catch {
+      // Token unregistration failure is non-critical
+    }
+  }, [expoPushToken]);
+
+  return { expoPushToken, unregisterToken };
 }

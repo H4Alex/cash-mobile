@@ -87,9 +87,14 @@ export const mobileAuthService = {
     await apiClient.patch(`${PREFIX}/password`, data);
   },
 
+  /** Verify reset token without changing password */
+  async verifyResetToken(data: { email: string; token: string }): Promise<void> {
+    await apiClient.post(`${PREFIX}/verify-reset-token`, data);
+  },
+
   /** Delete account permanently (LGPD compliance) */
   async deleteAccount(data: DeleteAccountRequest): Promise<void> {
-    await apiClient.post(`${PREFIX}/delete-account`, data);
+    await apiClient.delete(`${PREFIX}/delete-account`, { data });
     await clearTokens();
   },
 

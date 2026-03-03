@@ -10,7 +10,7 @@ export interface Campanha {
   id: number;
   nome: string;
   percentual: number;
-  status: "ativa" | "inativa" | "encerrada";
+  status: "ativa" | "inativa" | "finalizada";
   validade_padrao: number;
 }
 
