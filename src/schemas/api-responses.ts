@@ -8,6 +8,13 @@
  * ============================================================
  */
 
+import { apiResponseSchema, paginatedResponseSchema, cursorPaginatedResponseSchema } from "@/src/contracts/schemas/common.schemas";
+import { loginResponseDataSchema } from "@/src/contracts/schemas/auth.schemas";
+import { saldoDataSchema, extratoEntrySchema } from "@/src/contracts/schemas/cashback.schemas";
+import { contestacaoSchema } from "@/src/contracts/schemas/contestacao.schemas";
+import type { z } from "zod";
+import type { notificationSchema as _notifSchema } from "@/src/contracts/schemas/notificacao.schemas";
+
 // ─── Envelope helpers (from contracts/common) ───────────────
 export {
   apiResponseSchema,
@@ -37,19 +44,12 @@ export { notificationSchema } from "@/src/contracts/schemas/notificacao.schemas"
 // These combine domain schemas with envelope helpers, matching
 // the names that consumers already import.
 
-import { apiResponseSchema, paginatedResponseSchema, cursorPaginatedResponseSchema } from "@/src/contracts/schemas/common.schemas";
-import { loginResponseDataSchema } from "@/src/contracts/schemas/auth.schemas";
-import { saldoDataSchema, extratoEntrySchema } from "@/src/contracts/schemas/cashback.schemas";
-import { contestacaoSchema } from "@/src/contracts/schemas/contestacao.schemas";
-
 export const loginResponseSchema = apiResponseSchema(loginResponseDataSchema);
 export const saldoResponseSchema = apiResponseSchema(saldoDataSchema);
 export const extratoResponseSchema = cursorPaginatedResponseSchema(extratoEntrySchema);
 export const contestacaoListResponseSchema = paginatedResponseSchema(contestacaoSchema);
 
 // ─── Inferred types ─────────────────────────────────────────
-import type { z } from "zod";
-import type { notificationSchema as _notifSchema } from "@/src/contracts/schemas/notificacao.schemas";
 
 export type LoginResponseData = z.infer<typeof loginResponseDataSchema>;
 export type LoginResponse = z.infer<typeof loginResponseSchema>;

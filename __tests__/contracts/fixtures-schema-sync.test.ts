@@ -66,7 +66,7 @@ describe('Fixture -> Zod Schema Contract Sync', () => {
     });
 
     it('conforms with overrides', () => {
-      const cliente = buildCliente({ nome: 'Custom Name', telefone: null });
+      const cliente = buildCliente({ nome: 'Custom Name', telefone: undefined });
       expectValid(clienteResourceSchema, cliente);
     });
 
