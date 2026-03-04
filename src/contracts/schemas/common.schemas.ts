@@ -92,8 +92,10 @@ export function cursorPaginatedResponseSchema<T extends z.ZodTypeAny>(
 ) {
   return z.object({
     status: z.literal(true),
-    data: z.array(itemSchema),
-    pagination: cursorPaginationMetaSchema,
+    data: z.object({
+      data: z.array(itemSchema),
+      meta: cursorPaginationMetaSchema,
+    }),
     error: z.null(),
     message: z.string(),
   });
