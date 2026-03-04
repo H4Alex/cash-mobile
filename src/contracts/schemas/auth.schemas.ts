@@ -93,6 +93,45 @@ export const biometricEnrollRequestSchema = z.object({
   device_id: z.string().min(1),
 });
 
+/**
+ * POST /api/mobile/v1/auth/biometric/unenroll — Remove credencial biométrica.
+ *
+ * Fonte: MobileBiometricController::unenroll() — inline validate(['device_id' => 'required|string|max:255'])
+ */
+export const biometricUnenrollRequestSchema = z.object({
+  device_id: z.string().min(1).max(255),
+});
+
+/**
+ * Response de biometric unenroll.
+ *
+ * Swagger: { unenrolled: boolean }
+ */
+export const biometricUnenrollResponseSchema = z.object({
+  unenrolled: z.boolean(),
+});
+
+// ─── Device Registration (Push Notifications) ──────────────
+
+/**
+ * POST /api/mobile/v1/devices — Registrar dispositivo para push notifications.
+ *
+ * Fonte: cashback-backend/app/Http/Requests/Mobile/MobileRegisterDeviceRequest.php
+ */
+export const mobileRegisterDeviceRequestSchema = z.object({
+  token: z.string().min(1).max(500),
+  plataforma: z.enum(["ios", "android"]),
+});
+
+/**
+ * DELETE /api/mobile/v1/devices — Remover registro de dispositivo.
+ *
+ * Fonte: cashback-backend/app/Http/Requests/Mobile/MobileDestroyDeviceRequest.php
+ */
+export const mobileDestroyDeviceRequestSchema = z.object({
+  token: z.string().min(1),
+});
+
 // ─── Tipos derivados ─────────────────────────────────────────
 
 export type ClienteResource = z.infer<typeof clienteResourceSchema>;
@@ -107,3 +146,7 @@ export type ChangePasswordRequest = z.infer<typeof changePasswordRequestSchema>;
 export type DeleteAccountRequest = z.infer<typeof deleteAccountRequestSchema>;
 export type OAuthRequest = z.infer<typeof oauthRequestSchema>;
 export type BiometricEnrollRequest = z.infer<typeof biometricEnrollRequestSchema>;
+export type BiometricUnenrollRequest = z.infer<typeof biometricUnenrollRequestSchema>;
+export type BiometricUnenrollResponse = z.infer<typeof biometricUnenrollResponseSchema>;
+export type MobileRegisterDeviceRequest = z.infer<typeof mobileRegisterDeviceRequestSchema>;
+export type MobileDestroyDeviceRequest = z.infer<typeof mobileDestroyDeviceRequestSchema>;
