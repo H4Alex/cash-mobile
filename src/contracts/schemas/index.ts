@@ -37,6 +37,10 @@ export {
   deleteAccountRequestSchema,
   oauthRequestSchema,
   biometricEnrollRequestSchema,
+  biometricUnenrollRequestSchema,
+  biometricUnenrollResponseSchema,
+  mobileRegisterDeviceRequestSchema,
+  mobileDestroyDeviceRequestSchema,
 } from "./auth.schemas";
 export type {
   ClienteResource,
@@ -51,6 +55,10 @@ export type {
   DeleteAccountRequest,
   OAuthRequest,
   BiometricEnrollRequest,
+  BiometricUnenrollRequest,
+  BiometricUnenrollResponse,
+  MobileRegisterDeviceRequest,
+  MobileDestroyDeviceRequest,
 } from "./auth.schemas";
 
 // ─── Cashback / Extrato ──────────────────────────────────────
