@@ -107,7 +107,7 @@ export const gerarCashbackMerchantRequestSchema = z.object({
 /** POST /api/v1/cashback/utilizar — UtilizarCashbackRequest. */
 export const utilizarCashbackRequestSchema = z.object({
   cpf: z.string().length(11),
-  valor: z.number().positive(),
+  valor_compra: z.number().positive(),
   unidade_negocio_id: z.number().positive().optional(),
 });
 
