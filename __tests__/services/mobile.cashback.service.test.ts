@@ -46,7 +46,7 @@ describe("mobileCashbackService", () => {
       expect(mockGet).toHaveBeenCalledWith("/api/mobile/v1/saldo");
       expect(result.saldo_total).toBe(150.0);
       expect(result.por_empresa).toHaveLength(1);
-      expect(result.proximo_a_expirar.valor).toBe(20.0);
+      expect(result.proximo_a_expirar?.valor).toBe(20.0);
     });
 
     it("calls validateResponse with saldoResponseSchema", async () => {

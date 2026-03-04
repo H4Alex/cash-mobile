@@ -365,7 +365,7 @@ describe("API Response Schemas", () => {
     });
 
     it("buildCliente with overrides validates against clienteResourceSchema", () => {
-      const cliente = buildCliente({ nome: "Maria", cpf: null, telefone: null });
+      const cliente = buildCliente({ nome: "Maria", cpf: undefined, telefone: undefined });
       expect(clienteResourceSchema.safeParse(cliente).success).toBe(true);
     });
 

@@ -32,7 +32,7 @@ describe("useAuthStore", () => {
         nome: "Test",
         email: "test@example.com",
         cpf: "12345678901",
-        telefone: null,
+        telefone: undefined,
         created_at: "",
         updated_at: "",
       });
