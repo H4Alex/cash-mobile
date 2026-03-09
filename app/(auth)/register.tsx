@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  View,
   Text,
   TextInput,
   TouchableOpacity,
@@ -19,6 +20,7 @@ export default function RegisterScreen() {
   const router = useRouter();
   const registerMutation = useRegister();
   const [step, setStep] = useState<"form" | "submitting">("form");
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     control,
@@ -118,40 +120,58 @@ export default function RegisterScreen() {
 
         {/* Senha */}
         <Text className="text-sm font-medium text-gray-700 mb-1 mt-3">Senha</Text>
-        <Controller
-          control={control}
-          name="senha"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              testID="input-password"
-              className="border border-gray-300 rounded-lg px-4 py-3 mb-1 text-base"
-              placeholder="Mínimo 6 caracteres"
-              secureTextEntry
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
+        <View className="relative">
+          <Controller
+            control={control}
+            name="senha"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                testID="input-password"
+                className="border border-gray-300 rounded-lg px-4 py-3 pr-20 mb-1 text-base"
+                placeholder="Mínimo 6 caracteres"
+                secureTextEntry={!showPassword}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <TouchableOpacity
+            className="absolute right-3 top-3"
+            onPress={() => setShowPassword(!showPassword)}
+            accessibilityLabel={showPassword ? "Ocultar senha" : "Mostrar senha"}
+          >
+            <Text className="text-gray-500 text-sm">{showPassword ? "Ocultar" : "Mostrar"}</Text>
+          </TouchableOpacity>
+        </View>
         {errors.senha && <Text className="text-red-500 text-xs mb-3">{errors.senha.message}</Text>}
 
         {/* Confirmar Senha */}
         <Text className="text-sm font-medium text-gray-700 mb-1 mt-3">Confirmar Senha</Text>
-        <Controller
-          control={control}
-          name="senha_confirmation"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              testID="input-confirm-password"
-              className="border border-gray-300 rounded-lg px-4 py-3 mb-1 text-base"
-              placeholder="Repita a senha"
-              secureTextEntry
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        />
+        <View className="relative">
+          <Controller
+            control={control}
+            name="senha_confirmation"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                testID="input-confirm-password"
+                className="border border-gray-300 rounded-lg px-4 py-3 pr-20 mb-1 text-base"
+                placeholder="Repita a senha"
+                secureTextEntry={!showPassword}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
+          />
+          <TouchableOpacity
+            className="absolute right-3 top-3"
+            onPress={() => setShowPassword(!showPassword)}
+            accessibilityLabel={showPassword ? "Ocultar senha" : "Mostrar senha"}
+          >
+            <Text className="text-gray-500 text-sm">{showPassword ? "Ocultar" : "Mostrar"}</Text>
+          </TouchableOpacity>
+        </View>
         {errors.senha_confirmation && (
           <Text className="text-red-500 text-xs mb-3">{errors.senha_confirmation.message}</Text>
         )}

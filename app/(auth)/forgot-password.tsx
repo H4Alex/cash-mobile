@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  View,
   Text,
   TextInput,
   TouchableOpacity,
@@ -26,6 +27,7 @@ export default function ForgotPasswordScreen() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("email");
   const [verifying, setVerifying] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const forgotMutation = useForgotPassword();
   const resetMutation = useResetPassword();
 
@@ -176,20 +178,29 @@ export default function ForgotPasswordScreen() {
           </Text>
 
           <Text className="text-sm font-medium text-gray-700 mb-1">Nova Senha</Text>
-          <Controller
-            control={resetForm.control}
-            name="senha"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                className="border border-gray-300 rounded-lg px-4 py-3 mb-1 text-base"
-                placeholder="Nova senha (mínimo 6 caracteres)"
-                secureTextEntry
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-          />
+          <View className="relative">
+            <Controller
+              control={resetForm.control}
+              name="senha"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  className="border border-gray-300 rounded-lg px-4 py-3 pr-20 mb-1 text-base"
+                  placeholder="Nova senha (mínimo 6 caracteres)"
+                  secureTextEntry={!showPassword}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+            />
+            <TouchableOpacity
+              className="absolute right-3 top-3"
+              onPress={() => setShowPassword(!showPassword)}
+              accessibilityLabel={showPassword ? "Ocultar senha" : "Mostrar senha"}
+            >
+              <Text className="text-gray-500 text-sm">{showPassword ? "Ocultar" : "Mostrar"}</Text>
+            </TouchableOpacity>
+          </View>
           {resetForm.formState.errors.senha && (
             <Text className="text-red-500 text-xs mb-3">
               {resetForm.formState.errors.senha.message}
