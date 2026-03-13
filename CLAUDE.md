@@ -15,6 +15,10 @@
 - Watchman instalado (melhora hot reload do Metro)
 - EAS CLI disponível para builds/deploys
 - Processar JSON: usar `jq` (disponível)
+- Processar YAML/Swagger: usar `yq` (disponível)
+- Busca em código: `rg` (ripgrep) e `fd` disponíveis — preferir sobre grep/find
+- Git: delta (side-by-side diffs), lazygit (TUI) configurados
+- Docker Desktop (WSL2) disponível para serviços
 
 ## Regras de Projeto
 - Edição cirúrgica em arquivos existentes — NUNCA reescrever inteiro
