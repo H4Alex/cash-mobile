@@ -1,10 +1,10 @@
 # Roadmap de Expansão de Cobertura — cash-mobile
 
 ## Baseline (data: 2026-03-13)
-- Statements: 59.79% | Branches: 53.97% | Functions: 52.25% | Lines: 60.46%
+- Statements: 67.10% | Branches: 57.03% | Functions: 65.47% | Lines: 67.93%
 - Testes existentes: 545 (92 suites)
-- Módulos com 0% branches: 4 (i18n, testing/msw/fixtures, testing/msw/handlers, theme)
-- Thresholds calibrados: stmts 54, branches 48, functions 47, lines 55
+- Módulos com 0% branches: 2 (i18n, theme) — `src/testing/**` excluído do collectCoverageFrom
+- Thresholds calibrados: stmts 62, branches 52, functions 60, lines 62
 
 ## Prioridade ALTA (P1) — Impacto crítico
 
@@ -43,10 +43,10 @@
 3. **Expandir testes de hooks** — focar em branches de error handling (33.3% branch coverage)
 
 ## Meta (próximo trimestre)
-- Statements: 59.79% → 72%
-- Branches: 53.97% → 65%
-- Functions: 52.25% → 65%
-- Lines: 60.46% → 72%
+- Statements: 67.10% → 80%
+- Branches: 57.03% → 70%
+- Functions: 65.47% → 78%
+- Lines: 67.93% → 80%
 
 ## Legenda
 - **P:** <1 dia, 1-5 testes | **M:** 1-3 dias, 5-15 testes | **G:** 3-5 dias, 15+ testes

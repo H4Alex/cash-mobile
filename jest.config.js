@@ -8,13 +8,13 @@ module.exports = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
   },
-  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts", "!src/**/index.ts", "!src/types/**"],
+  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts", "!src/**/index.ts", "!src/types/**", "!src/testing/**"],
   coverageThreshold: {
     global: {
-      branches: 48,
-      functions: 47,
-      lines: 55,
-      statements: 54,
+      branches: 52,
+      functions: 60,
+      lines: 62,
+      statements: 62,
     },
   },
   setupFiles: ["<rootDir>/jest.setup.js"],

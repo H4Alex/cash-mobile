@@ -7,10 +7,10 @@
 
 | Métrica    | Valor  |
 |------------|--------|
-| Statements | 59.79% |
-| Branches   | 53.97% |
-| Functions  | 52.25% |
-| Lines      | 60.46% |
+| Statements | 67.10% |
+| Branches   | 57.03% |
+| Functions  | 65.47% |
+| Lines      | 67.93% |
 
 ## Jest Exit Code
 0 (success)
@@ -37,29 +37,23 @@
 | schemas              | 92.45%  | 68.75%  | 100%    | 100%    |
 | services             | 92.76%  | 75%     | 86.36%  | 92.76%  |
 | stores               | 100%    | 100%    | 100%    | 100%    |
-| testing              | 100%    | 100%    | 100%    | 100%    |
-| testing/msw          | 0%      | 100%    | 100%    | 0%      |
-| testing/msw/fixtures | 0%      | 0%      | 0%      | 0%      |
-| testing/msw/handlers | 0%      | 0%      | 0%      | 0%      |
 | theme                | 0%      | 0%      | 0%      | 0%      |
 | utils                | 100%    | 100%    | 100%    | 100%    |
 
 ## Módulos com 0% branches
 - `i18n/locales` — arquivos de tradução (JSON-like), não testáveis diretamente
-- `testing/msw/fixtures` — fixtures de teste, usados por handlers (cobertura indireta esperada)
-- `testing/msw/handlers` — handlers MSW, executados durante testes de serviços
 - `theme` — ThemeProvider + tokens, sem testes dedicados
 
 ## Módulos de excelência (100% cobertura)
 - `stores` — todos os 6 stores com cobertura completa
 - `utils` — formatadores com cobertura completa
 - `contracts/schemas` — schemas de validação
-- `testing` — helpers de teste
 
 ## Notas
 - Config revisado na E2 antes deste snapshot — números confiáveis
 - Suite 92/92 suites, 545/545 testes passando, 0 skipped
-- Worker leak warning em Toast.test.tsx (timers não limpos) — não afeta resultados
-- `testing/msw/*` tem 0% porque são infraestrutura de teste (fixtures/handlers) incluída no collectCoverageFrom — considerar excluir de cobertura
+- `src/testing/**` excluído do collectCoverageFrom (infraestrutura de teste, não código de produção)
+- Toast.test.tsx corrigido: `clearAllTimers` + `useRealTimers` no teardown
+- Worker leak warning do Jest persiste em runs paralelos (issue conhecido do Jest com animações RN) — não afeta resultados
 - `lib` com 16.34% stmts e 3.70% branches é o módulo com maior gap de cobertura funcional
-- Thresholds atuais (branches: 10, functions: 40, lines: 50, statements: 50) estão abaixo dos valores reais — serão recalibrados na E4
+- Thresholds calibrados: branches 52, functions 60, lines 62, statements 62
