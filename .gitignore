@@ -25,3 +25,4 @@ coverage/
 
 # test artifacts
 test-results/
+logs/
