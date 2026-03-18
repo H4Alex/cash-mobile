@@ -90,6 +90,27 @@ describe("biometricService", () => {
     });
   });
 
+  describe("unenroll", () => {
+    it("unenrolls biometric on the backend", async () => {
+      mockPost.mockResolvedValue({
+        data: { status: true, data: { success: true }, error: null, message: "Sucesso" },
+      });
+
+      const result = await biometricService.unenroll("device-123");
+
+      expect(mockPost).toHaveBeenCalledWith(
+        "/api/mobile/v1/auth/biometric/unenroll",
+        { device_id: "device-123" },
+      );
+      expect(result.success).toBe(true);
+    });
+
+    it("propagates network errors", async () => {
+      mockPost.mockRejectedValue(new Error("Network Error"));
+      await expect(biometricService.unenroll("device")).rejects.toThrow("Network Error");
+    });
+  });
+
   describe("verify", () => {
     it("verifies biometric token and returns JWT", async () => {
       mockPost.mockResolvedValue({
